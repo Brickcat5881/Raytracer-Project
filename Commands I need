@@ -1,0 +1,4 @@
+Commands I need
+
+Complile the scripts: g++ main.cpp -o raytracer
+Run the raytracer: "./raytracer >"
