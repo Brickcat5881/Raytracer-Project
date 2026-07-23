@@ -22,12 +22,12 @@ class sphere : public hittable {
         
         //Find the nearest root that lies in the acceptable range
         auto root = (h - sqrtd) / a;
-        if (!ray_t.surrrounds(root)) {
+        if (!ray_t.surrounds(root)) {
             root = (h + sqrtd) / a;
             if (!ray_t.surrounds(root))
-                return false
+                return false;
         }
-        }
+        
 
         rec.t = root;
         rec.p = r.at(rec.t);
