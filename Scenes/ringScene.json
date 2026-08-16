@@ -1,0 +1,39 @@
+{
+    "camera": {
+        "aspect_ratio": 1.7777,
+        "image_width": 400,
+        "samples_per_pixel": 100,
+        "max_depth": 50,
+        "vfov": 90,
+        "lookfrom": [4,2,3],
+        "lookat": [0,1,0],
+        "defocus_angle": 0.3,
+        "focus_dist": -1,
+        "_comment": "Set focus_dist to -1 for auto"
+    },
+    "materials": {
+        "ring_material": {
+            "material": "metal",
+            "albedo": [1.0,1.0,0.9],
+            "fuzz": 0.5
+        },
+        "ground_material": {
+            "material": "lambertian",
+            "albedo": [0.5, 0.5, 0.5]
+        }
+    },
+    "objects": {
+        "ring": {
+            "type": "model",
+            "path": "OBJs/simpleRing.obj",
+            "material": "ring_material",
+            "translate": [0,1,0]
+        },
+        "ground": {
+            "type": "sphere",
+            "center": [0,-1000,0],
+            "radius": 1000,
+            "material": "ground_material"
+        }
+    }
+}
