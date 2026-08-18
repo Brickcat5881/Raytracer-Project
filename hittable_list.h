@@ -34,6 +34,16 @@ class hittable_list : public hittable {
         }
         return hit_anything;
     }
+    aabb bounding_box() const override {
+        point3 bmin(1e30, 1e30, 1e30);
+        point3 bmax(-1e30, -1e30, -1e30);
+        for (const auto& object : objects) {
+            aabb box = object->bounding_box();
+            bmin = point3(std::fmin(bmin.x(), box.min().x()), std::fmin(bmin.y(), box.min().y()), std::fmin(bmin.z(), box.min().z()));
+            bmax = point3(std::fmax(bmax.x(), box.max().x()), std::fmax(bmax.y(), box.max().y()), std::fmax(bmax.z(), box.max().z()));
+        }
+        return aabb(bmin, bmax);
+    }
 };
 
 #endif

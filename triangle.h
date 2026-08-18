@@ -51,6 +51,20 @@ class triangle : public hittable {
         
     }
 
+    aabb bounding_box() const override {
+        auto minX = std::fmin(a.x(), std::fmin(b.x(), c.x()));
+        auto maxX = std::fmax(a.x(), std::fmax(b.x(), c.x()));
+
+        auto minY = std::fmin(a.y(), std::fmin(b.y(), c.y()));
+        auto maxY = std::fmax(a.y(), std::fmax(b.y(), c.y()));
+
+        auto minZ = std::fmin(a.z(), std::fmin(b.z(), c.z()));
+        auto maxZ = std::fmax(a.z(), std::fmax(b.z(), c.z()));
+
+        aabb triangleAABB = aabb(point3(minX,minY,minZ), point3(maxX,maxY,maxZ));
+        return triangleAABB;
+    }
+
     private:
     point3 a;
     point3 b;

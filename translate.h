@@ -15,6 +15,12 @@ class translate: public hittable {
         rec.p += offset;
         return true;
     }
+
+    aabb bounding_box() const override {
+        aabb originalBB = object->bounding_box();
+        aabb offsetBB = aabb(originalBB.min()+offset,originalBB.max()+offset);
+        return offsetBB;
+    }
     private:
     shared_ptr<hittable> object;
     vec3 offset;

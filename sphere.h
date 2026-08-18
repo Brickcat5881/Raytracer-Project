@@ -2,6 +2,7 @@
 #define SPHERE_H
 
 #include "hittable.h"
+#include "aabb.h"
 
 
 class sphere : public hittable {
@@ -39,6 +40,13 @@ class sphere : public hittable {
 
         return true;
     }
+
+    aabb bounding_box() const override {
+        vec3 rvec(radius, radius, radius);
+        aabb sphereAABB = aabb(center - rvec, center + rvec);
+        return sphereAABB;
+    }
+
     private:
     point3 center;
     double radius;

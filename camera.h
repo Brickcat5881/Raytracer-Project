@@ -21,9 +21,12 @@ class camera {
 
     void render(const hittable& world) {
         initialize();
+        std::vector<color> framebuffer(image_width * image_height);
+        
 
         std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
+        #pragma omp parallel for schedule(dynamic)
         for (int j = 0; j < image_height; j++) {
             std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
             for (int i = 0; i < image_width; i++) {
@@ -33,10 +36,14 @@ class camera {
                     //std::clog << "Current Ray Origin: " << (r.origin()) << "Direction: "<< (r.direction()) << "\n";
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                write_color(std::cout, pixel_samples_scale * pixel_color);
+                framebuffer[j * image_width + i] = pixel_samples_scale * pixel_color;
             }
         }
-
+        for (int j = 0; j < image_height; j++) {
+            for (int i = 0; i < image_width; i++) {
+                write_color(std::cout, framebuffer[j * image_width + i]);
+            }
+        }
         std::clog << "\rDone.                 \n";
     }
     private:

@@ -8,6 +8,7 @@
 #include <sstream>
 #include <vector>
 #include "hittable_list.h"
+#include "bvh.h"
 
 class model: public hittable {
     public:
@@ -16,7 +17,11 @@ class model: public hittable {
     }
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
-        return triangles.hit(r, ray_t, rec);
+        return bvh_tree->hit(r, ray_t, rec);
+    }
+
+    aabb bounding_box() const override {
+        return bvh_tree->bounding_box();
     }
 
 
@@ -24,6 +29,7 @@ class model: public hittable {
     std::string path;
     shared_ptr<material> mat;
     hittable_list triangles;
+    shared_ptr<bvh> bvh_tree;
 
     void load_file(const std::string filePath) {
         std::ifstream file(filePath);
@@ -65,6 +71,8 @@ class model: public hittable {
 
             }
         }
+
+        bvh_tree = make_shared<bvh>(triangles);
     }
     
 };
