@@ -3,6 +3,7 @@
 
 #include "hittable.h"
 #include "material.h"
+#include <OpenImageDenoise/oidn.hpp>
 
 class camera {
     public:
@@ -39,9 +40,35 @@ class camera {
                 framebuffer[j * image_width + i] = pixel_samples_scale * pixel_color;
             }
         }
+
+        std::vector<float> image_buffer(image_width * image_height * 3);
+
+        for (int i=1; i < image_width * image_height; i++) {
+            image_buffer[i * 3 + 0] = float(framebuffer[i].x());
+            image_buffer[i * 3 + 1] = float(framebuffer[i].y());
+            image_buffer[i * 3 + 2] = float(framebuffer[i].z());
+        }
+
+        std::clog << "\nDenoising image using OpenImageDenoiser\n";
+
+        //set device
+        oidn::DeviceRef device = oidn::newDevice();
+        device.commit();
+
+        //Create RT filter
+        oidn::FilterRef filter = device.newFilter("RT");
+        filter.setImage("color", image_buffer.data(), oidn::Format::Float3, image_width, image_height);
+        filter.setImage("output", image_buffer.data(), oidn::Format::Float3, image_width, image_height);
+        filter.set("hdr", false);
+        filter.commit();
+
+        filter.execute();
+
         for (int j = 0; j < image_height; j++) {
             for (int i = 0; i < image_width; i++) {
-                write_color(std::cout, framebuffer[j * image_width + i]);
+                int idx = (j * image_width + i) * 3;
+                color clean_pixel(image_buffer[idx], image_buffer[idx+1], image_buffer[idx + 2]);
+                write_color(std::cout, clean_pixel);
             }
         }
         std::clog << "\rDone.                 \n";

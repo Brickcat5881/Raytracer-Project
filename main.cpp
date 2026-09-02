@@ -17,7 +17,7 @@ using json = nlohmann::json;
 
 int main() {
     //Opening the JSON file for the scene
-    std::ifstream scene_file("Scenes/SuzanneScene.json");
+    std::ifstream scene_file("Scenes/ringScene.json");
     if (!scene_file.is_open()) {
         std::cerr << "Failed to open the scene";
         return 1;

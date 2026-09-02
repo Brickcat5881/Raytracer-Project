@@ -1,8 +1,8 @@
 {
     "camera": {
         "aspect_ratio": 1.7777,
-        "image_width": 400,
-        "samples_per_pixel": 80,
+        "image_width": 1920,
+        "samples_per_pixel": 50,
         "max_depth": 30,
         "vfov": 50,
         "lookfrom": [4,2,3],
