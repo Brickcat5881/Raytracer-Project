@@ -14,10 +14,10 @@
 
 using json = nlohmann::json;
 
-
+//Essentially a script to initialise all camera values and the contents of the scene from the JSON scene
 int main() {
     //Opening the JSON file for the scene
-    std::ifstream scene_file("Scenes/ringScene.json");
+    std::ifstream scene_file("Scenes/CornellBoxScene.json");
     if (!scene_file.is_open()) {
         std::cerr << "Failed to open the scene";
         return 1;
@@ -54,14 +54,16 @@ int main() {
 
     for (auto& [name, obj_data] : data["objects"].items()) {
         std::string type = obj_data["type"];
-        std::string mat_name = obj_data["material"];
+        
 
         if (type == "sphere") {
+            std::string mat_name = obj_data["material"];
             point3 center(obj_data["center"][0], obj_data["center"][1], obj_data["center"][2]);
             double radius = obj_data["radius"];
             world.add(make_shared<sphere>(center, radius, materials[mat_name]));
 }
         else if (type == "triangle") {
+            std::string mat_name = obj_data["material"];
             point3 a(obj_data["a"][0], obj_data["a"][1], obj_data["a"][2]);
             point3 b(obj_data["b"][0], obj_data["b"][1], obj_data["b"][2]);
             point3 c(obj_data["c"][0], obj_data["c"][1], obj_data["c"][2]);
@@ -69,12 +71,17 @@ int main() {
             world.add(make_shared<triangle>(a, b, c, materials[mat_name]));
         }
         else if (type == "model") {
-            auto obj_model = make_shared<model>(obj_data["path"], materials[mat_name]);
+            // 1. If JSON specifies a material, grab it; otherwise pass nullptr:
+            shared_ptr<material> model_mat = nullptr;
+            if (obj_data.contains("material")) {
+                model_mat = materials[obj_data["material"]];
+            }
+            // 2. Create the model:
+            auto obj_model = make_shared<model>(obj_data["path"], model_mat);
             if (obj_data.contains("translate")) {
                 vec3 offset(obj_data["translate"][0], obj_data["translate"][1], obj_data["translate"][2]);
                 world.add(make_shared<translate>(obj_model, offset));
-            }
-            else {
+            } else {
                 world.add(obj_model);
             }
         }
@@ -101,6 +108,6 @@ int main() {
         cam.focus_dist = data["camera"]["focus_dist"];
     }
     
-
+    //RENDER
     cam.render(world);
 }

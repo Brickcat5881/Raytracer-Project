@@ -1,0 +1,37 @@
+{
+    "camera": {
+        "aspect_ratio": 1.7777,
+        "image_width": 1920,
+        "samples_per_pixel": 50,
+        "max_depth": 30,
+        "vfov": 50,
+        "lookfrom": [4,0.5,0],
+        "lookat": [0,0.5,0],
+        "vup": [0,1,0],
+        "defocus_angle": 0.3,
+        "focus_dist": -1,
+        "_comment": "Set focus_dist to -1 for auto"
+    },
+    "materials": {
+        "suzanne_material": {
+            "material": "metal",
+            "albedo": [1.0,1.0,0.9],
+            "fuzz": 0.5
+        },
+        "ground_material": {
+            "material": "lambertian",
+            "albedo": [0.5, 0.5, 0.5]
+        }
+    },
+    
+    "objects": {
+        
+        "box": {
+            "type": "model",
+            "path": "OBJs/Cornell_Box.obj"
+            
+            
+        }
+        
+    }
+}

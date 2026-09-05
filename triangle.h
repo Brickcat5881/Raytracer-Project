@@ -52,6 +52,7 @@ class triangle : public hittable {
     }
 
     aabb bounding_box() const override {
+       
         auto minX = std::fmin(a.x(), std::fmin(b.x(), c.x()));
         auto maxX = std::fmax(a.x(), std::fmax(b.x(), c.x()));
 
@@ -60,6 +61,13 @@ class triangle : public hittable {
 
         auto minZ = std::fmin(a.z(), std::fmin(b.z(), c.z()));
         auto maxZ = std::fmax(a.z(), std::fmax(b.z(), c.z()));
+
+         // If any axis is completely flat, give it a tiny thickness
+        double delta = 0.001;
+        if (maxX - minX < delta) { minX -= delta; maxX += delta; }
+        if (maxY - minY < delta) { minY -= delta; maxY += delta; }
+        if (maxZ - minZ < delta) { minZ -= delta; maxZ += delta; }
+
 
         aabb triangleAABB = aabb(point3(minX,minY,minZ), point3(maxX,maxY,maxZ));
         return triangleAABB;

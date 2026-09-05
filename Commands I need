@@ -1,4 +1,14 @@
 Commands I need
 
-Complile the scripts: g++ main.cpp -o raytracer
-Run the raytracer: "./raytracer >"
+Complile the scripts: g++ -O3 -fopenmp main.cpp -lOpenImageDenoise -o raytracer
+Run the raytracer: ./raytracer >
+
+For mtls:
+
+Kd - RGB Colour
+Ks - Specular (metal reflectivity)
+Ns - Fuzz Parameter
+Ke - Emissivity
+Ni - IOR
+d - Opacity
+

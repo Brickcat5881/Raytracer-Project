@@ -5,6 +5,7 @@
 
 class material;
 
+//Essentially a list of what has been it and the information about each hit and the ray
 class hit_record {
     public:
     point3 p;
@@ -22,6 +23,7 @@ class hit_record {
     }
 };
 
+//Base for hittable but is empty as it must be overriden by the child
 class hittable {
     public:
     virtual ~hittable() = default;

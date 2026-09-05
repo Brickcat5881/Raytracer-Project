@@ -9,6 +9,7 @@
 #include <vector>
 #include <memory>
 
+//Struct is a class with only public attributes, just a structure which is then used for each node in the tree
 struct bvh_node {
     point3 aabbMin;
     point3 aabbMax;
@@ -19,12 +20,12 @@ struct bvh_node {
     int primCount;
 };
 
+//Class which defines the BVH, inherits hittable as it is a hittable object which contains the original object
 class bvh : public hittable {
     public:
     bvh(hittable_list list) {
         objects = list.objects;
         build_bvh();
-        
     }
 
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
@@ -36,8 +37,8 @@ class bvh : public hittable {
     }   
 
     private:
-    std::vector<bvh_node> nodes;
-    std::vector<shared_ptr<hittable>> objects;
+    std::vector<bvh_node> nodes; //A vector of nodes, as defined in the struct. 
+    std::vector<shared_ptr<hittable>> objects; //A vector of hittable objects
     int rootNodeIdx = 0;
     int nodesUsed = 1;
 
@@ -126,12 +127,16 @@ class bvh : public hittable {
 
     }
 
+
+    //Called in hit()
     bool intersect_node(int nodeIdx, const ray& r, interval ray_t, hit_record& rec) const {
         const bvh_node& node = nodes[nodeIdx];
 
         if (!aabb(node.aabbMin, node.aabbMax).hit(r, ray_t)) {
             return false;
         }
+
+        //STOPPING CONDITION. Iterates through the prims and finds the closest one that is hit
         if (node.primCount > 0) {
             bool hit_anything = false;
             auto closest_so_far = ray_t.max;
@@ -146,6 +151,8 @@ class bvh : public hittable {
             }
             return hit_anything;
         }
+
+        //RECURSE. Recurses when the intersected node is not a leaf and continues through the tree
         else {
             bool hit_left = intersect_node(node.leftChild, r, ray_t, rec);
             interval right_interval = hit_left ? interval(ray_t.min, rec.t) : ray_t;

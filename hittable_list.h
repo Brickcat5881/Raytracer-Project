@@ -6,7 +6,7 @@
 
 #include <vector>
 
-
+//A list of hittable objects that is itself a hittable object
 class hittable_list : public hittable {
     public:
     std::vector<shared_ptr<hittable>> objects;
@@ -20,6 +20,8 @@ class hittable_list : public hittable {
         objects.push_back(object);
     }
 
+
+    //Basic hit function to find which item in the hittable list has been hit and is infront
     bool hit(const ray& r, interval ray_t, hit_record& rec) const override {
         hit_record temp_rec;
         bool hit_anything = false;
@@ -34,6 +36,8 @@ class hittable_list : public hittable {
         }
         return hit_anything;
     }
+
+    //Every Hittable needs a bounding box, this one contains everything so is always hit
     aabb bounding_box() const override {
         point3 bmin(1e30, 1e30, 1e30);
         point3 bmax(-1e30, -1e30, -1e30);

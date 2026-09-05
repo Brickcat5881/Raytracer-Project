@@ -6,12 +6,16 @@
 #include "interval.h"
 #include <cmath>
 
+//This class is a bounding box, it is defined by a min and max point
 
 class aabb {
     public:
     aabb(const point3& aabbMin, const point3& aabbMax) : aabbMin(aabbMin), aabbMax(aabbMax) {
 
     }
+
+    //Define how to hit the bounding box
+    //Is basically working out where each ray enters and exits the aabb and then checks if the ray is in the box in all coordinates at 1 point in time, therefore hit
 
     bool hit(const ray& r, interval ray_t) const {
         //X-axis
@@ -37,7 +41,7 @@ class aabb {
         auto lastEntry = std::fmax(entryX, std::fmax(entryY, std::fmax(ray_t.min, entryZ)));
         auto firstExit = std::fmin(exitX, std::fmin(exitY, std::fmin(ray_t.max, exitZ)));
 
-        if (lastEntry < firstExit) {
+        if (lastEntry <= firstExit) {
             return true;
         }
         return false;

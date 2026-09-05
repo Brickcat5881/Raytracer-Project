@@ -3,6 +3,7 @@
 
 #include "hittable.h"
 
+//Parent Guidlines
 class material {
     public:
     virtual ~material() = default;
@@ -14,12 +15,14 @@ class material {
     
 };
 
+//A diffuse material that reflects light at random angles, a matte material like concrete
 class lambertian : public material {
     public:
     lambertian(const  color& albedo) : albedo(albedo) {}
 
     bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered) 
     const override {
+        //Scatters in a slightly random direction but still roughly normal
         auto scatter_direction = rec.normal + random_unit_vector();
 
         //Catch near zero scatter directions
@@ -34,6 +37,7 @@ class lambertian : public material {
     color albedo;
 };
 
+//Reflective metal with a fuzz (how polished it is)
 class metal : public material {
     public:
     metal(const color& albedo, double fuzz) : albedo(albedo), fuzz(fuzz < 1 ? fuzz : 1) {}
@@ -51,12 +55,14 @@ class metal : public material {
     double fuzz;
 };
 
+//Transparent material 
 class dielectric : public material {
     public:
     dielectric(double refraction_index) : refraction_index(refraction_index) {}
 
     bool scatter(const ray& r_in, const hit_record& rec, color& attenuation, ray& scattered)
     const override {
+        //Basically a bunch of maths which calculates the reflection and refraction
         attenuation = color(1.0, 1.0, 1.0);
         double ri = rec.front_face ? (1.0/refraction_index) : refraction_index;
 

@@ -3,6 +3,8 @@
 
 #include "hittable.h"
 
+//Used to move hittable objects in the scene
+//Moves the rays instead of the object which is easier
 class translate: public hittable {
     public:
     translate(shared_ptr<hittable> object, const vec3& offset) : object(object), offset(offset) {} 

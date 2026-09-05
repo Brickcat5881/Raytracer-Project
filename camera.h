@@ -6,6 +6,7 @@
 #include <OpenImageDenoise/oidn.hpp>
 
 class camera {
+    //Default Values (Edit values in JSON for rendering)
     public:
     double aspect_ratio   = 1.0;  // Ratio of image width over height
     int    image_width    = 100;  // Rendered image width in pixel count
@@ -20,27 +21,33 @@ class camera {
     double defocus_angle = 0;
     double focus_dist = 10;
 
+    //Render pipeline
     void render(const hittable& world) {
         initialize();
-        std::vector<color> framebuffer(image_width * image_height);
+        std::vector<color> framebuffer(image_width * image_height); //A vector of the rendered frame
         
 
-        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n"; //Outputting the .ppm header "P3" is the file format, then resolution, then colour depth
 
-        #pragma omp parallel for schedule(dynamic)
+        #pragma omp parallel for schedule(dynamic) //MultiThreading scheduling
+
+        //Iterate through each line
         for (int j = 0; j < image_height; j++) {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+
+            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush; //Log to show render progress
+            //Iterate though each pixel (column)
             for (int i = 0; i < image_width; i++) {
-                color pixel_color(0,0,0);
+                color pixel_color(0,0,0); //Define pixel_color
                 for (int sample =0; sample < samples_per_pixel; sample++) {
-                    ray r = get_ray(i, j);
+                    ray r = get_ray(i, j); //Generates a ray with anti-aliasing blur built in
                     //std::clog << "Current Ray Origin: " << (r.origin()) << "Direction: "<< (r.direction()) << "\n";
-                    pixel_color += ray_color(r, max_depth, world);
+                    pixel_color += ray_color(r, max_depth, world); //Adds on the ray_colour to that pixel
                 }
                 framebuffer[j * image_width + i] = pixel_samples_scale * pixel_color;
             }
         }
 
+        //Converting the framebuffer to the correct structure needed for OIDN
         std::vector<float> image_buffer(image_width * image_height * 3);
 
         for (int i=1; i < image_width * image_height; i++) {
@@ -51,7 +58,7 @@ class camera {
 
         std::clog << "\nDenoising image using OpenImageDenoiser\n";
 
-        //set device
+        //Set device
         oidn::DeviceRef device = oidn::newDevice();
         device.commit();
 
@@ -63,7 +70,7 @@ class camera {
         filter.commit();
 
         filter.execute();
-
+        
         for (int j = 0; j < image_height; j++) {
             for (int i = 0; i < image_width; i++) {
                 int idx = (j * image_width + i) * 3;
@@ -146,7 +153,7 @@ class camera {
         return center + (p[0] * defocus_disk_u) + (p[1] * defocus_disk_v);
     }
 
-    
+    //Returns the ray color based on what objects are hit
     color ray_color(const ray& r, int depth, const hittable& world) const {
 
         if (depth <= 0)
@@ -163,6 +170,7 @@ class camera {
             
         }
 
+        //Sky Colour
         vec3 unit_direction = unit_vector(r.direction());
         auto a = 0.5*(unit_direction.y() + 1.0);
         return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
