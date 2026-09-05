@@ -2,13 +2,13 @@
     "camera": {
         "aspect_ratio": 1.7777,
         "image_width": 1920,
-        "samples_per_pixel": 50,
+        "samples_per_pixel": 300,
         "max_depth": 30,
         "vfov": 50,
-        "lookfrom": [4,0.5,0],
+        "lookfrom": [1,0.5,0],
         "lookat": [0,0.5,0],
         "vup": [0,1,0],
-        "defocus_angle": 0.3,
+        "defocus_angle": 0.0,
         "focus_dist": -1,
         "_comment": "Set focus_dist to -1 for auto"
     },

@@ -103,6 +103,7 @@ class model: public hittable {
         color current_Ke;   //Emission
         float current_Ni;   //IOR
         float current_d;    //Opacity
+        int current_illum; //Shader Type (2 is matte, 3 is metal)
 
         std::ifstream file(path);
         if (!file.is_open()) {
@@ -122,13 +123,13 @@ class model: public hittable {
             if (prefix == "newmtl") {
                 if (current_name != "") {
                     if (current_Ke.x() > 0 || current_Ke.y() > 0 || current_Ke.z() > 0) {
-                        continue; //ADD EMMISIVE
+                        loaded_materials[current_name] = make_shared<diffuse_light>(current_Ke);
                     }
                     else if (current_d < 1.0) {
                         loaded_materials[current_name] = make_shared<dielectric>(current_Ni);
                     }
-                    else if (current_Ks.x() > 0.2 || current_Ks.y() > 0.2 || current_Ks.z() > 0.2) {
-                        double fuzz = 1.0 - (current_Ns / 1000.0);
+                    else if (current_illum == 3) {
+                        double fuzz = 1.0 - (current_Ns / 1000.0); 
                         loaded_materials[current_name] = make_shared<metal>(current_Kd,fuzz);
                     }
                     else {
@@ -161,16 +162,19 @@ class model: public hittable {
             else if (prefix == "d") {
                 ss >> current_d;
             }
+            else if (prefix == "illum") {
+                ss >> current_illum;
+            }
 
 
         }
         if (current_Ke.x() > 0 || current_Ke.y() > 0 || current_Ke.z() > 0) {
-            return; //ADD EMMISIVE
+            loaded_materials[current_name] = make_shared<diffuse_light>(current_Ke);
         }
         else if (current_d < 1.0) {
             loaded_materials[current_name] = make_shared<dielectric>(current_Ni);
         }
-        else if (current_Ks.x() > 0.2 || current_Ks.y() > 0.2 || current_Ks.z() > 0.2) {
+        else if (current_illum == 3) {
             double fuzz = 1.0 - (current_Ns / 1000.0);
             loaded_materials[current_name] = make_shared<metal>(current_Kd,fuzz);
         }

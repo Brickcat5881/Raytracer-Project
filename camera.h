@@ -164,16 +164,23 @@ class camera {
         if (world.hit(r, interval(0.001, infinity), rec)) {
             ray scattered;
             color attenuation;
-            if (rec.mat->scatter(r,rec,attenuation,scattered))
-                return attenuation * ray_color(scattered, depth-1, world);
-            return color(0,0,0);
+
+            color color_from_emission = rec.mat->emitted();
+
+            if (!rec.mat->scatter(r,rec,attenuation,scattered)) {
+                return color_from_emission;
+            }
+            
+            color color_from_scatter = attenuation * ray_color(scattered,depth-1,world);
+            return color_from_emission + color_from_scatter;
             
         }
 
+        return color (0,0,0);
         //Sky Colour
-        vec3 unit_direction = unit_vector(r.direction());
-        auto a = 0.5*(unit_direction.y() + 1.0);
-        return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
+        //vec3 unit_direction = unit_vector(r.direction());
+        //auto a = 0.5*(unit_direction.y() + 1.0);
+        //return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
     }
 };
 
