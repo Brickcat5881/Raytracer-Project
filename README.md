@@ -13,6 +13,11 @@ URL (book): https://raytracing.github.io/books/raytracinginoneweekend.html
 
 I then used Google Gemini 3.7 flash to help me learn how to draw triangles and incorperate a JSON scene editor to make adjusting the scene easier
 
-I am now currently reading How to build a BVH - Jacco's Blog by Jacco Bikker
+I then read How to build a BVH - Jacco's Blog by Jacco Bikker
 https://jacco.ompf2.com/2022/04/13/how-to-build-a-bvh-part-1-basics/
+
+I have since implemented the Intel OpenImageDenoiser as well as a model_loader script to import objs from blender.
+
+
+
 

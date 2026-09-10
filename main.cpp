@@ -7,6 +7,7 @@
 #include "triangle.h"
 #include "model_loader.h"
 #include "translate.h"
+#include "rotate_y.h"
 
 #include <map>
 #include <fstream>
@@ -77,13 +78,18 @@ int main() {
                 model_mat = materials[obj_data["material"]];
             }
             // 2. Create the model:
-            auto obj_model = make_shared<model>(obj_data["path"], model_mat);
+            shared_ptr<hittable> obj_model = make_shared<model>(obj_data["path"], model_mat);
             if (obj_data.contains("translate")) {
                 vec3 offset(obj_data["translate"][0], obj_data["translate"][1], obj_data["translate"][2]);
-                world.add(make_shared<translate>(obj_model, offset));
-            } else {
-                world.add(obj_model);
+                obj_model = make_shared<translate>(obj_model, offset);
+            } 
+            if (obj_data.contains("rotate")) {
+                double theta = obj_data["rotate"];
+                obj_model = make_shared<rotate_y>(obj_model, theta);
             }
+            
+            world.add(obj_model);
+            
         }
     }
 

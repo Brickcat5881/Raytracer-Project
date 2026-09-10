@@ -10,6 +10,7 @@
 
 class aabb {
     public:
+    aabb() {}
     aabb(const point3& aabbMin, const point3& aabbMax) : aabbMin(aabbMin), aabbMax(aabbMax) {
 
     }
