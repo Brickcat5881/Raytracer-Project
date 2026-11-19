@@ -24,20 +24,20 @@ I have since implemented the Intel OpenImageDenoiser as well as a model_loader s
 also allows me to incorporate my hobby of 3D modelling in blender by rendering my own models which is really cool (although still mighty slow)
 -The OID was just to make the renders look better, not really hard to implement as it is all basically done for me
 
-# Here are some of my favourite renders:
-First PPM:
+## Here are some of my favourite renders:
+# First PPM:
 ![First PPM](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/TestImage.png)
-First Antialiasing
+# First Antialiasing
 ![First Antialiasing](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/AntiAliasingSphere.png)
-Multiple Materials
+# Multiple Materials
 ![Multiple Materials](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/FuzzyMetalSpheres.png)
-Moveable Camera
+# Moveable Camera
 ![Moveable Camera](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/NewCamPosition.png)
-The Cover Image from "RayTracing in a Weekend"
+# The Cover Image from "RayTracing in a Weekend"
 ![CoverImage](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/CoverImage.png)
-Adding Models and Denoising
+# Adding Models and Denoising
 ![Models](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/DenoiseAfter.png)
-Blender's Suzanne in a Box
+# Blender's Suzanne in a Box
 ![Suzanne Box](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/MetallicSuzanneBox.png)
-The CornelBox
+# The CornelBox
 ![CornelBox](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/CornellBox.png)
