@@ -26,4 +26,4 @@ also allows me to incorperate my hobby of 3D modelling in blender by rendering m
 
 #Here are some of my favourite renders:
 
-![CornelBox](https://github.com/[Brickcat6881]/[Raytracer-Project]/CornellBox.png?raw=true)
+![CornelBox](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/CornellBox.png)
