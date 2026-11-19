@@ -30,7 +30,7 @@ also allows me to incorporate my hobby of 3D modelling in blender by rendering m
 # First Antialiasing
 ![First Antialiasing](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/AntiAliasingSphere.png)
 # Multiple Materials
-![Multiple Materials](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/FuzzyMetalSpheres.png)
+![Multiple Materials](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/FuzzyMetalSpheresFHD.png)
 # Moveable Camera
 ![Moveable Camera](https://github.com/Brickcat5881/Raytracer-Project/blob/main/docs/renders/NewCamPosition.png)
 # The Cover Image from "RayTracing in a Weekend"
